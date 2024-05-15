@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:32:05 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/14 19:26:18 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:37:49 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ void	*routine(void *fakephilo)
 	t_socrates	*philo;
 
 	philo = (t_socrates*)fakephilo;
-	while (!philo->data->complete)
+	while (!philo->data->complete && !philo->data->deathOccured)
 	{
 		get_forks(philo);
 		eat(philo);
 		go_sleep(philo);
 	}
+	printf("LINE EM UP\n");
 	return (NULL);
 }
 
@@ -34,18 +35,23 @@ void	*supervisor(void *fake)
 	i = 0;
 	numba1 = (t_socrates*)fake;
 
-	while (!numba1->data->deathOccured && i < numba1->data->numPhils)
+	while (!numba1->data->complete)
 	{
-		if (get_time(numba1->data) - numba1->data->philes[i].mealStart > numba1->data->timeToDie)
+		i = 0;
+		while (!numba1->data->deathOccured && i < numba1->data->numPhils)
 		{
-			announce_death(numba1, i + 1);
-			return (NULL);
-		}
-		if (numba1->data->fattyCount == numba1->data->numPhils)
-		{
-			numba1->data->complete = 1;
-			printf("All fatties are fat\n");
-			return (NULL);
+			if (get_time(numba1->data) - numba1->data->philes[i].mealStart > numba1->data->timeToDie)
+			{
+				announce_death(numba1, i + 1);
+				return (NULL);
+			}
+			else if (numba1->data->fattyCount == numba1->data->numPhils)
+			{
+				numba1->data->complete = 1;
+				printf("All fatties are fat\n");
+				return (NULL);
+			}
+			i++;
 		}
 	}
 	return (NULL);
@@ -57,7 +63,7 @@ int	thread_init(t_data *data)
 	pthread_t		t0;
 
 	i = 0;
-	data->timeOfStart = get_time(data);
+	// data->timeOfStart = get_time(data);
 	printf("%lu - Simulation has begun\n", get_time(data));
 	if (data->numTimesPhilMustEat > 0)
 	{

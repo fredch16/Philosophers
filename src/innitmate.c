@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 14:21:12 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/14 19:12:20 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:48:41 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ int	enableThinking(t_data *data)
 		data->deathOccured = 0;
 		data->philes[i].fattyFactor = 1;
 		data->timeOfStart = 0;
+		data->timeOfStart = get_time(data);
+		data->philes[i].mealStart = 0;
+		// data->philes[i].mealStart = get_time(data);
 		// pthread_mutex_init(&data->philes[i].lock, NULL);
 		i++;
 	}

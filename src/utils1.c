@@ -6,11 +6,12 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:10:16 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/14 19:08:51 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:57:49 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <stdlib.h>
 
 void	clearData(t_data *data)
 {
@@ -56,10 +57,15 @@ u_int64_t	get_time(t_data *data)
 int	ft_usleep(useconds_t time, t_data *data)
 {
 	uint64_t	start;
+	uint64_t	elapsed;
 
 	start = get_time(data);
-	while ((get_time(data) - start) < time)
-		usleep(time / 10);
+	elapsed = get_time(data);
+	while (elapsed - start < time)
+	{
+		usleep(250);
+		elapsed = get_time(data);
+	}
 	return (0);
 }
 
@@ -67,4 +73,7 @@ void	announce_death(t_socrates *phil, int id)
 {
 	printf("%lu - Fatty %d could not munch fast enough\n\n", get_time(phil->data), id);
 	phil->data->deathOccured = 1;
+	ft_exit(phil->data);
+	exit(EXIT_SUCCESS);
+	
 }
