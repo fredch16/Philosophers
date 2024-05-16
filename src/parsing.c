@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 22:21:47 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/13 18:14:50 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:09:27 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	initInfo(t_data *data, char *argv[], int argc)
 	// pthread_mutex_init(&data->lock, NULL);
 	if (argc == 6)
 		data->numTimesPhilMustEat = ft_atol(argv[5]);
+	else
+		data->numTimesPhilMustEat = 9999999;
 }
 
 void	set_em_up(int argc, char *argv[], t_data *data)

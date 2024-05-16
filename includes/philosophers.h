@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:07 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/14 19:12:06 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:59:02 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_data
 	uint64_t		timeToDie;
 	pthread_mutex_t	*forks;
 	// pthread_mutex_t	lock;
-	// pthread_mutex_t	write;
+	pthread_mutex_t	*write;
 }	t_data;
 
 void		ft_exit(t_data *data);
@@ -97,5 +97,6 @@ u_int64_t	get_time(t_data *data);
 int			ft_usleep(useconds_t time, t_data *data);
 int			mallocationStation(t_data *data);
 void		announce_death(t_socrates *phil, int id);
+int			write_request(t_socrates *phil, char *message);
 
 #endif // !PHILOSOPHERS_H

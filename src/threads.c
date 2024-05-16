@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:32:05 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/15 23:37:49 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/16 22:01:31 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	*routine(void *fakephilo)
 		eat(philo);
 		go_sleep(philo);
 	}
-	printf("LINE EM UP\n");
 	return (NULL);
 }
 
@@ -35,7 +34,7 @@ void	*supervisor(void *fake)
 	i = 0;
 	numba1 = (t_socrates*)fake;
 
-	while (!numba1->data->complete)
+	while (!numba1->data->complete && !numba1->data->deathOccured)
 	{
 		i = 0;
 		while (!numba1->data->deathOccured && i < numba1->data->numPhils)
@@ -48,7 +47,7 @@ void	*supervisor(void *fake)
 			else if (numba1->data->fattyCount == numba1->data->numPhils)
 			{
 				numba1->data->complete = 1;
-				printf("All fatties are fat\n");
+				// printf("All fatties are fat\n");
 				return (NULL);
 			}
 			i++;
@@ -80,12 +79,15 @@ int	thread_init(t_data *data)
 	}
 	i = 0;
 	if (pthread_join(t0, NULL))
+	{
 		return (error(JOIN_ERR, data));
+	}
 	while (i < data->numPhils)
 	{
 		if (pthread_join(data->tid[i], NULL))
 			return (error(JOIN_ERR, data));
 		i++;
 	}
+	ft_exit(data);
 	return (0);
 }

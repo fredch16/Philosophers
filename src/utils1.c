@@ -6,11 +6,12 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:10:16 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/15 23:57:49 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/16 22:03:34 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <pthread.h>
 #include <stdlib.h>
 
 void	clearData(t_data *data)
@@ -21,6 +22,8 @@ void	clearData(t_data *data)
 		free(data->forks);
 	if (data->philes)
 		free(data->philes);
+	if (data->write)
+		free(data->write);
 }
 
 void	ft_exit(t_data *data)
@@ -71,9 +74,17 @@ int	ft_usleep(useconds_t time, t_data *data)
 
 void	announce_death(t_socrates *phil, int id)
 {
-	printf("%lu - Fatty %d could not munch fast enough\n\n", get_time(phil->data), id);
+	printf("%lu %d died\n", get_time(phil->data), id);
 	phil->data->deathOccured = 1;
-	ft_exit(phil->data);
-	exit(EXIT_SUCCESS);
-	
+}
+
+int	write_request(t_socrates *phil, char *message)
+{
+	pthread_mutex_lock(phil->data->write);
+	if (!phil->data->deathOccured && !phil->data->complete)
+	{
+		printf("%lu %d %s\n", get_time(phil->data), phil->id, message);
+	}
+	pthread_mutex_unlock(phil->data->write);
+	return (0);
 }
