@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 22:21:47 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 16:56:03 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 17:50:29 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	saul_goodman(int argc, char *argv[])
 	if (argc < 5 || argc > 6)
 	{
 		printf("Incorrect Arguments\nCorrect Usage:\n");
-		printf("%s", USAGE);
+		printf("%s %s", USAGE1, USAGE2);
 		exit(EXIT_FAILURE);
 	}
 	if (ft_atol(argv[1]) < 1)
@@ -79,16 +79,16 @@ int	saul_goodman(int argc, char *argv[])
 
 void	init_info(t_data *data, char *argv[], int argc)
 {
-	data->numPhils = ft_atol(argv[1]);
-	data->timeToDie = ft_atol(argv[2]);
-	data->timeOfEat = ft_atol(argv[3]);
-	data->timeOfSleep = ft_atol(argv[4]);
-	data->deathOccured = 1;
-	data->fattyCount = 0;
+	data->num_phils = ft_atol(argv[1]);
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_of_eat = ft_atol(argv[3]);
+	data->time_of_sleep = ft_atol(argv[4]);
+	data->death_occured = 1;
+	data->fatty_count = 0;
 	if (argc == 6)
-		data->numTimesPhilMustEat = ft_atol(argv[5]);
+		data->fat_target = ft_atol(argv[5]);
 	else
-		data->numTimesPhilMustEat = 9999999;
+		data->fat_target = 9999999;
 }
 
 void	set_em_up(int argc, char *argv[], t_data *data)

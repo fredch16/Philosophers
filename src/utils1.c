@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:10:16 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 16:13:30 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 17:54:55 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-void	clearData(t_data *data)
+void	clear_data(t_data *data)
 {
 	if (data->tid)
 		free(data->tid);
@@ -33,14 +33,14 @@ void	ft_exit(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->numPhils)
+	while (i < data->num_phils)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
 	pthread_mutex_destroy(data->lock);
 	pthread_mutex_destroy(data->write);
-	clearData(data);
+	clear_data(data);
 }
 
 int	error(char *str, t_data *data)
@@ -53,12 +53,12 @@ int	error(char *str, t_data *data)
 
 u_int64_t	get_time(t_data *data)
 {
-	//calculates the current time in ms and returns it as a uint64
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
 		return (error("gettimeofday() FAILURE\n", NULL));
-	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000) - data->timeOfStart);
+	return ((tv.tv_sec * (uint64_t)1000)
+		+ (tv.tv_usec / 1000) - data->time_of_start);
 }
 
 int	ft_usleep(useconds_t time, t_data *data)
@@ -73,24 +73,5 @@ int	ft_usleep(useconds_t time, t_data *data)
 		usleep(250);
 		elapsed = get_time(data);
 	}
-	return (0);
-}
-
-void	announce_death(t_socrates *phil, int id)
-{
-	printf("%lu %d died\n", get_time(phil->data), id);
-	phil->data->deathOccured = 1;
-}
-
-int	write_request(t_socrates *phil, char *message)
-{
-	pthread_mutex_lock(phil->data->lock);
-	pthread_mutex_lock(phil->data->write);
-	if (!phil->data->deathOccured && !phil->data->complete)
-	{
-		printf("%lu %d %s\n", get_time(phil->data), phil->id, message);
-	}
-	pthread_mutex_unlock(phil->data->write);
-	pthread_mutex_unlock(phil->data->lock);
 	return (0);
 }

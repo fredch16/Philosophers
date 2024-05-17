@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:07 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 13:46:17 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 17:55:16 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <stdbool.h>
 # include <bits/types/struct_timeval.h>
 # include <sys/types.h>
+
+# define USAGE1 "./philo <number_of_philosophers> <time_to_die> <time_to_eat>"
+# define USAGE2 "<time_to_sleep> <number_of_times_each_philosopher_must_eat>\n"
 
 # define ALLOC_ERR_1 "ERROR WHILE ALLOCATING THREADS IDs"
 # define ALLOC_ERR_3 "ERROR WHILE ALLOCATING PHILOS"
@@ -56,28 +59,27 @@ typedef struct s_socrates
 	struct s_data	*data;
 	pthread_t		t1;
 	int				id;
-	uint64_t		timeToDie;
-	uint64_t		mealStart;
+	uint64_t		meal_start;
 	int				status;
 	int				eating;
-	int				fattyFactor;
-	pthread_mutex_t	*rFork;
-	pthread_mutex_t	*lFork;
+	int				fatty_factor;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
 }	t_socrates;
 
 typedef struct s_data
 {
 	pthread_t		*tid;
-	int				numPhils;
-	int				numTimesPhilMustEat;
-	int				deathOccured;
+	int				num_phils;
+	int				fat_target;
+	int				death_occured;
 	int				complete;
 	t_socrates		*philes;
-	int				fattyCount;
-	uint64_t		timeOfEat;
-	uint64_t		timeOfSleep;
-	uint64_t		timeOfStart;
-	uint64_t		timeToDie;
+	int				fatty_count;
+	uint64_t		time_of_eat;
+	uint64_t		time_of_sleep;
+	uint64_t		time_of_start;
+	uint64_t		time_to_die;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	*write;
@@ -90,12 +92,12 @@ void		go_sleep(t_socrates *philo);
 void		messages(char *str, t_socrates *philo);
 int			thread_init(t_data *data);
 void		set_em_up(int argc, char *argv[], t_data *data);
-int			enableThinking(t_data *data);
-int			initForks(t_data *data);
+int			enable_thinking(t_data *data);
+int			init_forks(t_data *data);
 int			error(char *str, t_data *data);
 u_int64_t	get_time(t_data *data);
 int			ft_usleep(useconds_t time, t_data *data);
-int			mallocationStation(t_data *data);
+int			mallocation_station(t_data *data);
 void		announce_death(t_socrates *phil, int id);
 int			write_request(t_socrates *phil, char *message);
 
