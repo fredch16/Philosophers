@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 22:21:47 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/16 19:09:27 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:56:03 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	saul_goodman(int argc, char *argv[])
 	i = 1;
 	if (argc < 5 || argc > 6)
 	{
-		printf("Incorrect Arguments\nCorrect Usage:\n.");
-		printf("./philo <numPhils> <timeToDie> <timeToEat> <timeToSleep> <[numTimesPhilMustEat]>\n");
+		printf("Incorrect Arguments\nCorrect Usage:\n");
+		printf("%s", USAGE);
 		exit(EXIT_FAILURE);
 	}
 	if (ft_atol(argv[1]) < 1)
@@ -77,7 +77,7 @@ int	saul_goodman(int argc, char *argv[])
 	return (1);
 }
 
-void	initInfo(t_data *data, char *argv[], int argc)
+void	init_info(t_data *data, char *argv[], int argc)
 {
 	data->numPhils = ft_atol(argv[1]);
 	data->timeToDie = ft_atol(argv[2]);
@@ -85,8 +85,6 @@ void	initInfo(t_data *data, char *argv[], int argc)
 	data->timeOfSleep = ft_atol(argv[4]);
 	data->deathOccured = 1;
 	data->fattyCount = 0;
-	// pthread_mutex_init(&data->write, NULL);
-	// pthread_mutex_init(&data->lock, NULL);
 	if (argc == 6)
 		data->numTimesPhilMustEat = ft_atol(argv[5]);
 	else
@@ -102,9 +100,9 @@ void	set_em_up(int argc, char *argv[], t_data *data)
 	}
 	else
 	{
-		initInfo(data, argv, argc);
-		mallocationStation(data);
-		initForks(data);
-		enableThinking(data);
+		init_info(data, argv, argc);
+		mallocation_station(data);
+		init_forks(data);
+		enable_thinking(data);
 	}
 }
