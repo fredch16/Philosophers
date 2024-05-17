@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:32:05 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 19:43:18 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:02:51 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,36 @@ void	*supervisor(void *fake)
 	{
 		pthread_mutex_unlock(numba1->data->lock);
 		i = 0;
-		while (!numba1->data->death_occured && i < numba1->data->num_phils)
-		{
-			pthread_mutex_lock(numba1->data->lock);
-			if (get_time(numba1->data) - numba1->data->philes[i].meal_start
-				> numba1->data->time_to_die)
-			{
-				announce_death(numba1, i + 1);
-				pthread_mutex_unlock(numba1->data->lock);
-				return (NULL);
-			}
-			else if (numba1->data->fatty_count == numba1->data->num_phils)
-			{
-				numba1->data->complete = 1;
-				pthread_mutex_unlock(numba1->data->lock);
-				return (NULL);
-			}
-			pthread_mutex_unlock(numba1->data->lock);
-			i++;
-		}
+		if (!check_stop_condition(numba1, i))
+			return (NULL);
 		pthread_mutex_lock(numba1->data->lock);
 	}
 	pthread_mutex_unlock(numba1->data->lock);
 	return (NULL);
+}
+
+int	check_stop_condition(t_socrates *numba1, int i)
+{
+	while (!numba1->data->death_occured && i < numba1->data->num_phils)
+	{
+		pthread_mutex_lock(numba1->data->lock);
+		if (get_time(numba1->data) - numba1->data->philes[i].meal_start
+			> numba1->data->time_to_die)
+		{
+			announce_death(numba1, i + 1);
+			pthread_mutex_unlock(numba1->data->lock);
+			return (0);
+		}
+		else if (numba1->data->fatty_count == numba1->data->num_phils)
+		{
+			numba1->data->complete = 1;
+			pthread_mutex_unlock(numba1->data->lock);
+			return (0);
+		}
+		pthread_mutex_unlock(numba1->data->lock);
+		i++;
+	}
+	return (1);
 }
 
 int	thread_init(t_data *data)
@@ -89,6 +96,8 @@ int	thread_init(t_data *data)
 	{
 		return (error(JOIN_ERR, data));
 	}
+	// if (supa_thread_init(data))
+	// 	return (error(TH_ERR, data));
 	while (i < data->num_phils)
 	{
 		if (pthread_join(data->tid[i], NULL))
@@ -98,3 +107,19 @@ int	thread_init(t_data *data)
 	ft_exit(data);
 	return (0);
 }
+
+// int	supa_thread_init(t_data *data)
+// {
+// 	pthread_t		t0;
+//
+// 	if (data->eat_goal > 0)
+// 	{
+// 		if (pthread_create(&t0, NULL, &supervisor, &data->philes[0]))
+// 			return (error("TH_ERR", data));
+// 	}
+// 	if (pthread_join(t0, NULL))
+// 	{
+// 		return (error(JOIN_ERR, data));
+// 	}
+// 	return (0);
+// }

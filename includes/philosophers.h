@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:07 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 19:31:00 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:02:04 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int			enable_thinking(t_data *data);
 int			init_forks(t_data *data);
 int			error(char *str, t_data *data);
 u_int64_t	get_time(t_data *data);
+int			supa_thread_init(t_data *data);
+int			check_stop_condition(t_socrates *numba1, int i);
 int			ft_usleep(useconds_t time, t_data *data);
 int			mallocation_station(t_data *data);
 void		announce_death(t_socrates *phil, int id);

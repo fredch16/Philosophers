@@ -6,12 +6,11 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 22:21:47 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 19:30:28 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:51:34 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-#include <stdlib.h>
 
 long	ft_atol(const char *nptr)
 {

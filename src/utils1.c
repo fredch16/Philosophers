@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:10:16 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 19:42:27 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:52:32 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,5 @@ int	ft_usleep(useconds_t time, t_data *data)
 		usleep(250);
 		elapsed = get_time(data);
 	}
-	return (0);
-}
-
-void	announce_death(t_socrates *phil, int id)
-{
-	printf("%lu %d died\n", get_time(phil->data), id);
-	phil->data->death_occured = 1;
-}
-
-int	write_request(t_socrates *phil, char *message)
-{
-	pthread_mutex_lock(phil->data->lock);
-	pthread_mutex_lock(phil->data->write);
-	if (!phil->data->death_occured && !phil->data->complete)
-	{
-		printf("%lu %d %s\n", get_time(phil->data), phil->id, message);
-	}
-	pthread_mutex_unlock(phil->data->write);
-	pthread_mutex_unlock(phil->data->lock);
 	return (0);
 }
