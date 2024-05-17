@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:10:16 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/16 22:03:34 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:13:30 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	clearData(t_data *data)
 		free(data->philes);
 	if (data->write)
 		free(data->write);
+	if (data->lock)
+		free(data->lock);
 }
 
 void	ft_exit(t_data *data)
@@ -36,6 +38,8 @@ void	ft_exit(t_data *data)
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(data->lock);
+	pthread_mutex_destroy(data->write);
 	clearData(data);
 }
 
@@ -80,11 +84,13 @@ void	announce_death(t_socrates *phil, int id)
 
 int	write_request(t_socrates *phil, char *message)
 {
+	pthread_mutex_lock(phil->data->lock);
 	pthread_mutex_lock(phil->data->write);
 	if (!phil->data->deathOccured && !phil->data->complete)
 	{
 		printf("%lu %d %s\n", get_time(phil->data), phil->id, message);
 	}
 	pthread_mutex_unlock(phil->data->write);
+	pthread_mutex_unlock(phil->data->lock);
 	return (0);
 }

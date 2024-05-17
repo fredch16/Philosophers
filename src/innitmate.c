@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 14:21:12 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/16 21:51:26 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:46:47 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	mallocationStation(t_data *data)
 	data->tid = malloc(sizeof(pthread_t) * data->numPhils);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->numPhils);
 	data->write = malloc(sizeof(pthread_mutex_t) * 1);
+	data->lock = malloc(sizeof(pthread_mutex_t) * 1);
 	data->philes = malloc(sizeof(t_socrates) * data->numPhils);
 	return (0);
 }
@@ -64,5 +65,6 @@ int	enableThinking(t_data *data)
 		i++;
 	}
 	pthread_mutex_init(data->write, NULL);
+	pthread_mutex_init(data->lock, NULL);
 	return (0);
 }

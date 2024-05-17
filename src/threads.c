@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:32:05 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/16 22:01:31 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:30:04 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ void	*routine(void *fakephilo)
 	t_socrates	*philo;
 
 	philo = (t_socrates*)fakephilo;
+	pthread_mutex_lock(philo->data->lock);
 	while (!philo->data->complete && !philo->data->deathOccured)
 	{
+		pthread_mutex_unlock(philo->data->lock);
 		get_forks(philo);
 		eat(philo);
 		go_sleep(philo);
+		pthread_mutex_lock(philo->data->lock);
 	}
+	pthread_mutex_unlock(philo->data->lock);
 	return (NULL);
 }
 
@@ -33,26 +37,32 @@ void	*supervisor(void *fake)
 
 	i = 0;
 	numba1 = (t_socrates*)fake;
-
+	pthread_mutex_lock(numba1->data->lock);
 	while (!numba1->data->complete && !numba1->data->deathOccured)
 	{
+		pthread_mutex_unlock(numba1->data->lock);
 		i = 0;
 		while (!numba1->data->deathOccured && i < numba1->data->numPhils)
 		{
+			pthread_mutex_lock(numba1->data->lock);
 			if (get_time(numba1->data) - numba1->data->philes[i].mealStart > numba1->data->timeToDie)
 			{
 				announce_death(numba1, i + 1);
+				pthread_mutex_unlock(numba1->data->lock);
 				return (NULL);
 			}
 			else if (numba1->data->fattyCount == numba1->data->numPhils)
 			{
 				numba1->data->complete = 1;
-				// printf("All fatties are fat\n");
+				pthread_mutex_unlock(numba1->data->lock);
 				return (NULL);
 			}
+			pthread_mutex_unlock(numba1->data->lock);
 			i++;
 		}
+		pthread_mutex_lock(numba1->data->lock);
 	}
+	pthread_mutex_unlock(numba1->data->lock);
 	return (NULL);
 }
 
@@ -62,11 +72,8 @@ int	thread_init(t_data *data)
 	pthread_t		t0;
 
 	i = 0;
-	// data->timeOfStart = get_time(data);
-	printf("%lu - Simulation has begun\n", get_time(data));
 	if (data->numTimesPhilMustEat > 0)
 	{
-		//create a single overwatching thread that ensures nobody dyin
 		if (pthread_create(&t0, NULL, &supervisor, &data->philes[0]))
 			return (error("TH_ERR", data));
 	}
@@ -74,7 +81,6 @@ int	thread_init(t_data *data)
 	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philes[i]))
 			return (error(TH_ERR, data));
-		// ft_usleep(1, data);
 		i++;
 	}
 	i = 0;

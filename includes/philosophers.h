@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:07 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/16 19:59:02 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:46:17 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_data
 	uint64_t		timeOfStart;
 	uint64_t		timeToDie;
 	pthread_mutex_t	*forks;
-	// pthread_mutex_t	lock;
+	pthread_mutex_t	*lock;
 	pthread_mutex_t	*write;
 }	t_data;
 
