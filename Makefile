@@ -6,7 +6,7 @@
 #    By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/01 13:14:19 by fcharbon          #+#    #+#              #
-#    Updated: 2024/05/17 16:02:59 by fcharbon         ###   ########.fr        #
+#    Updated: 2024/05/17 19:52:11 by fcharbon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS := src/main.c \
 		src/parsing.c \
 		src/innitmate.c \
 		src/utils1.c \
+		src/utils2.c \
 		src/threads.c \
 		src/actions.c \
 

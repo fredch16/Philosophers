@@ -6,12 +6,11 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 22:21:47 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 17:50:29 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:51:34 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-#include <stdlib.h>
 
 long	ft_atol(const char *nptr)
 {
@@ -86,9 +85,9 @@ void	init_info(t_data *data, char *argv[], int argc)
 	data->death_occured = 1;
 	data->fatty_count = 0;
 	if (argc == 6)
-		data->fat_target = ft_atol(argv[5]);
+		data->eat_goal = ft_atol(argv[5]);
 	else
-		data->fat_target = 9999999;
+		data->eat_goal = 9999999;
 }
 
 void	set_em_up(int argc, char *argv[], t_data *data)

@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:07 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 17:55:16 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:08:39 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 # include <bits/types/struct_timeval.h>
 # include <sys/types.h>
 
-# define USAGE1 "./philo <number_of_philosophers> <time_to_die> <time_to_eat>"
-# define USAGE2 "<time_to_sleep> <number_of_times_each_philosopher_must_eat>\n"
+# define USAGE "BING BONG\n"
 
 # define ALLOC_ERR_1 "ERROR WHILE ALLOCATING THREADS IDs"
 # define ALLOC_ERR_3 "ERROR WHILE ALLOCATING PHILOS"
@@ -59,6 +58,7 @@ typedef struct s_socrates
 	struct s_data	*data;
 	pthread_t		t1;
 	int				id;
+	uint64_t		time_to_die;
 	uint64_t		meal_start;
 	int				status;
 	int				eating;
@@ -71,7 +71,7 @@ typedef struct s_data
 {
 	pthread_t		*tid;
 	int				num_phils;
-	int				fat_target;
+	int				eat_goal;
 	int				death_occured;
 	int				complete;
 	t_socrates		*philes;
@@ -96,6 +96,9 @@ int			enable_thinking(t_data *data);
 int			init_forks(t_data *data);
 int			error(char *str, t_data *data);
 u_int64_t	get_time(t_data *data);
+int			supa_thread_init(t_data *data);
+int			check_stop_condition(t_socrates *numba1, int i);
+int			thread_join(t_data *data, pthread_t t0);
 int			ft_usleep(useconds_t time, t_data *data);
 int			mallocation_station(t_data *data);
 void		announce_death(t_socrates *phil, int id);

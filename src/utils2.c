@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 13:34:20 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 20:09:59 by fcharbon         ###   ########.fr       */
+/*   Created: 2024/05/17 19:51:23 by fcharbon          #+#    #+#             */
+/*   Updated: 2024/05/17 19:52:04 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-#include <stdlib.h>
 
 void	announce_death(t_socrates *phil, int id)
 {
-	pthread_mutex_lock(phil->data->lock);
-	phil->data->death_occured = 1;
 	printf("%lu %d died\n", get_time(phil->data), id);
-	pthread_mutex_unlock(phil->data->lock);
-}
-
-int	main(int argc, char *argv[])
-{
-	t_data	data;
-
-	set_em_up(argc, argv, &data);
-	if (thread_init(&data))
-		return (1);
-	exit(EXIT_SUCCESS);
-	return (0);
+	phil->data->death_occured = 1;
 }

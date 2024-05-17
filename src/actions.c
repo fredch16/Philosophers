@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:40:37 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 18:52:56 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:47:52 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	eat(t_socrates *philo)
 		philo->meal_start = get_time(philo->data);
 		philo->fatty_factor++;
 		printf("%lu %d %s\n", get_time(philo->data), philo->id, EATING);
-		if (philo->fatty_factor == philo->data->fat_target)
+		if (philo->fatty_factor == philo->data->eat_goal)
 		{
 			philo->data->fatty_count++;
 		}
@@ -64,10 +64,8 @@ void	choose_fork(t_socrates *philo)
 
 void	get_forks(t_socrates *philo)
 {
-	pthread_mutex_lock(philo->data->lock);
 	if (!philo->data->complete && !philo->data->death_occured)
 	{
-		pthread_mutex_unlock(philo->data->lock);
 		if (philo->data->num_phils == 1)
 		{
 			pthread_mutex_lock(philo->r_fork);
