@@ -6,7 +6,7 @@
 /*   By: fcharbon <fcharbon@student.42london.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:32:05 by fcharbon          #+#    #+#             */
-/*   Updated: 2024/05/17 20:02:51 by fcharbon         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:12:08 by fcharbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,20 @@ int	thread_init(t_data *data)
 			return (error(TH_ERR, data));
 		i++;
 	}
+	if (thread_join(data, t0))
+		return (error(JOIN_ERR, data));
+	return (0);
+}
+
+int	thread_join(t_data *data, pthread_t t0)
+{
+	int	i;
+
 	i = 0;
 	if (pthread_join(t0, NULL))
 	{
 		return (error(JOIN_ERR, data));
 	}
-	// if (supa_thread_init(data))
-	// 	return (error(TH_ERR, data));
 	while (i < data->num_phils)
 	{
 		if (pthread_join(data->tid[i], NULL))
@@ -107,19 +114,3 @@ int	thread_init(t_data *data)
 	ft_exit(data);
 	return (0);
 }
-
-// int	supa_thread_init(t_data *data)
-// {
-// 	pthread_t		t0;
-//
-// 	if (data->eat_goal > 0)
-// 	{
-// 		if (pthread_create(&t0, NULL, &supervisor, &data->philes[0]))
-// 			return (error("TH_ERR", data));
-// 	}
-// 	if (pthread_join(t0, NULL))
-// 	{
-// 		return (error(JOIN_ERR, data));
-// 	}
-// 	return (0);
-// }
