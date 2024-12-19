@@ -55,8 +55,12 @@ timestamp_in_ms X died
 The program is written in C language and thus needs the **gcc compiler** and some standard **C libraries** to run.
 
 ### Instructions
+To pull files ↙️
+```bash
+git clone git@github.com:fredch16/Philosophers.git
+```
 
-**1. Compiling the program**
+**2. Compiling the program**
 
 To compile the mandatoy part, run:
 
@@ -64,13 +68,8 @@ To compile the mandatoy part, run:
 $ cd path/to/philo && make
 ```
 
-To compile the bonus part, run:
 
-```shell
-$ cd path/to/philo_bonus && make
-```
-
-**2. How to run the program**
+**3. How to run the program**
 
 Run the program with the following arguments:
 ```shell
